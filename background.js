@@ -13,13 +13,13 @@ const scoreDims = {
 const dims = scoreDims.xxsmall;
 
 // tries to fetch the next index score page until an error occurs, at which it stops
-async function prepareImageURLs(id, baseUrl, songName) {
+async function prepareImageURLs(id, baseUrl, songName, extension) {
 	activeScores[id] = [];
 	idToName[id] = songName;
 	let run = true;
 	let i = 0;
 	while (run) {
-		let url = `${baseUrl}score_${i}.svg`;
+		let url = `${baseUrl}score_${i}.${extension}`;
 		let fetched = await fetch(url);
 		if (fetched.status === 200) {
 			activeScores[id].push(url);
@@ -70,11 +70,11 @@ async function loadImage(url) {
 }
 chrome.runtime.onMessage.addListener(req => {
 	if (req.url && req.name) {
-		let url = (/.*(?<=https?:\/\/musescore\.com\/static.*\/)(\d*)(?=\/[^\/]*\/score_\d+\.svg).*(?=score_\d+.svg)/).exec(req.url);
-		if (req.url.includes("score_0.svg") && url) {
+		let url = (/.*(?<=https?:\/\/musescore\.com\/static.*\/)(\d*)(?=\/[^\/]*\/score_0\.(?:svg|png)).*(?=score_0.(svg|png))/).exec(req.url);
+		if (url) {
 			// checks to make sure the url contains the score id and there is not already data stored about this score in activeScores
-			if (url[0] && url[1] && !activeScores[url[1]]) {
-				prepareImageURLs(url[1], url[0], req.name);
+			if (url[0] && url[1] && url[2] && !activeScores[url[1]]) {
+				prepareImageURLs(url[1], url[0], req.name, url[2]);
 			}
 		}
 	}
