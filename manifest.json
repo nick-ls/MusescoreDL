@@ -1,0 +1,21 @@
+{
+	"manifest_version": 2,
+	"name": "MusescoreDL",
+	"version": "1.0",
+	"description": "Allow free sheet music downloads from Musescore",
+	"content_scripts": [{
+		"matches": ["https://*.musescore.com/*"],
+		"js": ["content.js"]
+	}],
+	"background": {
+		"scripts": ["jspdf.js", "background.js"],
+		"persistent": true
+	},
+	"icons": {
+		"32": "img/icon32.png",
+		"128": "img/icon128.png",
+		"256": "img/icon256.png"
+	},
+	"permissions": ["downloads", "https://*.musescore.com/*"],
+	"browser_action": {}
+}
