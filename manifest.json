@@ -16,6 +16,11 @@
 		"128": "img/icon128.png",
 		"256": "img/icon256.png"
 	},
-	"permissions": ["downloads", "https://*.musescore.com/*"],
+	"permissions": ["downloads", 
+		"https://*.musescore.com/*",
+		"https://s3.ultimate-guitar.com/*",
+		"https://s2.ultimate-guitar.com/*",
+		"https://s1.ultimate-guitar.com/*"
+	],
 	"browser_action": {}
 }
