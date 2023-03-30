@@ -51,14 +51,18 @@ function savePDF(pdf, name) {
 	});
 }
 chrome.browserAction.onClicked.addListener(async tab => {
-	chrome.tabs.sendMessage(tab.id, {clicked: true},async res => {
-		let pdf = new jspdf.jsPDF({
-			orientation: "portrait",
-			unit: "px",
-			format: dims,
-			putOnlyUsedFonts: true,
-			compress: true
-		});
-		addImagesToPDF(pdf, res.urls, res.name);
+	console.log("Tab clicked:", tab);
+	chrome.tabs.sendMessage(tab.id, {clicked: true});
+});
+browser.runtime.onMessage.addListener((res, sender, respond) => {
+	console.log(res);
+	let pdf = new jspdf.jsPDF({
+		orientation: "portrait",
+		unit: "px",
+		format: dims,
+		putOnlyUsedFonts: true,
+		compress: true
 	});
+	
+	addImagesToPDF(pdf, res.urls, res.name);
 });

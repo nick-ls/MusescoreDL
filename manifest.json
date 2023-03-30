@@ -22,5 +22,10 @@
 		"https://s2.ultimate-guitar.com/*",
 		"https://s1.ultimate-guitar.com/*"
 	],
-	"browser_action": {}
+	"browser_action": {},
+		"browser_specific_settings": {
+	    "gecko": {
+	      "id": "extension@nick-ls.github.com"
+	    }
+	  }
 }
