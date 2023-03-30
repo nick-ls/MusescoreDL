@@ -1,9 +1,7 @@
-//"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx".replaceAll("x", _=>"abcdefghijklmnopqrstuvwxyz1234567890"[(Math.random() * 36)|0]);
-chrome.extension.onMessage.addListener((msg, sender, respond) => {
-	loadAllImages().then(urls => {
-		respond({urls: urls, name: document.title});
-	});	
-	return true;
+browser.runtime.onMessage.addListener(async (message) => {
+	console.log("received new clicked message, sending message");
+	let loaded = await loadAllImages();
+	browser.runtime.sendMessage(loaded);
 });
 
 function getVisibleImages() {
@@ -39,7 +37,7 @@ async function loadAllImages() {
 			currentZone++;
 			fullPage.scroll(0, (currentZone + 1) * scrollAmount);
 		}
-		return finalUrls;
+		return {type: "score", urls: finalUrls, name: document.title};
 	}
 	return "There are no images to be found";
 }
